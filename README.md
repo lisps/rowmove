@@ -1,4 +1,9 @@
-rowmove
-=======
+====== Rowmove Plugin for DokuWiki ======
 
-Dokuwiki Plugin
+All documentation for the Rowmove Plugin is available online at:
+
+  * http://dokuwiki.org/plugin:rowmove
+
+(c) 2013 by lisps
+
+See COPYING for license info.
