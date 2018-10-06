@@ -10,11 +10,14 @@ var working = false;
 
 function rowup(el,pageid) 
 {
-	elTr = getParentTr(el);
-	elTbody = elTr.parentNode;
-	r_elRows = elTbody.rows;
-	iTr = elTr.rowIndex;
-	count = countRows(elTr);
+	var elTr = getParentTr(el);
+	var elTbody = elTr.parentNode;
+	var r_elRows = elTbody.rows;
+	var iTr = elTr.rowIndex;
+	var count = countRows(elTr);
+	var offset_thead = r_elRows[0].rowIndex;
+	
+	iTr=iTr-offset_thead;
 	
 	if(iTr==0) return; // erste Zeile
 	if(!checkRow(r_elRows[iTr-1])) return; //vorherige Zeile tauschbar
@@ -24,8 +27,8 @@ function rowup(el,pageid)
 	
 	elTbody.insertBefore(r_elRows[iTr],r_elRows[iTr-1]);
 	
-	tnr = numberTable(elTbody);
-	rowmovesend(pageid,iTr,iTr-1,tnr);
+	var tnr = numberTable(elTbody);
+	rowmovesend(pageid,iTr+offset_thead,iTr-1+offset_thead,tnr);
 }
 
 /*
@@ -36,30 +39,33 @@ function rowup(el,pageid)
 function rowdown(el,pageid) 
 {
 	
-	elTr = getParentTr(el);
-	elTbody = elTr.parentNode;
-	r_elRows = elTbody.rows;
-	iTr = elTr.rowIndex;
-	count = countRows(elTr);
+	var elTr = getParentTr(el);
+	var elTbody = elTr.parentNode;
+	var r_elRows = elTbody.rows;
+	var iTr = elTr.rowIndex;
+	var count = countRows(elTr);
+	var offset_thead = r_elRows[0].rowIndex;
+	
+	iTr=iTr-offset_thead;
 	
 	if(iTr+1 == count) return; //letzte Zeile
 	if(!checkRow(r_elRows[iTr+1])) return; //nächste Zeile tauschbar
 	
 	if(working) return;
-	working =true;
+	var working =true;
 	
 	if(iTr+2 == count)
 		elTbody.appendChild(r_elRows[iTr]);
 	else 
 		elTbody.insertBefore(r_elRows[iTr],r_elRows[iTr+2]);
-	tnr = numberTable(elTbody);
-	rowmovesend(pageid,iTr,iTr+1,tnr);
+	var tnr = numberTable(elTbody);
+	rowmovesend(pageid,iTr+offset_thead,iTr+1+offset_thead,tnr);
 }
 
 //send ajax data    
 function rowmovesend(pageid,idx_row,idx_row2,tablenr)
 {
-	ajaxedit_send(
+	ajaxedit_send2(
 		'rowmove',
 		tablenr,
 		rowmovedone,
@@ -73,14 +79,14 @@ function rowmovesend(pageid,idx_row,idx_row2,tablenr)
 function rowmovedone(data)
 {
 	working = false;
-	ret = ajaxedit_parse(data);
+	var ret = ajaxedit_parse(data);
 	ajaxedit_checkResponse(ret);
 }  
 
 function numberTable(elTbody) {
-	tables = document.getElementsByTagName("tbody");
+	var tables = jQuery('#dokuwiki__content table');
 	for(ii=0;ii<tables.length;ii++) {
-		if(elTbody == tables[ii]) return ii;
+		if(elTbody.parentNode == tables[ii]) return ii;
 	}
 	return -1;
 }
@@ -93,9 +99,9 @@ function countRows(el)
 {
 	var count = 0;
 	
-	elTr = getParentTr(el);
-	elTable = elTr.parentNode;
-	count = elTable.rows.length;
+	var elTr = getParentTr(el);
+	var elTable = elTr.parentNode;
+	var count = elTable.rows.length;
 	return count;
 }
 
@@ -105,7 +111,7 @@ function countRows(el)
 */
 function checkRow(elTr) 
 {
-	elCells = elTr.cells;
+	var elCells = elTr.cells;
 	
 	for(ii = 0; ii<elCells.length; ii++) {
 		for(kk=0; kk<elCells[ii].childNodes.length; kk++)

@@ -1,7 +1,7 @@
 base    rowmove
-author  lisps
-email   
-date    2013-10-24
+author  lisps, peterfromearth
+email   coder@peterfromearth.de
+date    2018-10-06
 name    RowMove
 desc    Moving rows of tables up and down
 url     http://dokuwiki.org/plugin:rowmove

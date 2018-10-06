@@ -51,7 +51,7 @@ class syntax_plugin_rowmove extends DokuWiki_Syntax_Plugin{
 		global $conf;
 		global $INFO;
 		
-		return($conf['useacl'] && $INFO['perm'] > AUTH_READ);
+		return(!$conf['useacl'] || $conf['useacl'] && $INFO['perm'] > AUTH_READ);
 	}
     
     /*
@@ -69,11 +69,10 @@ class syntax_plugin_rowmove extends DokuWiki_Syntax_Plugin{
 			
 			//insert selector if writable
 			if ($this->iswriter()==TRUE && $Hajax) {
-			    $image = DOKU_URL."lib/plugins/rowmove/";
-				$renderer->cdata("\n");
+			    $image = "./lib/plugins/rowmove/images/";
 				$renderer->doc .= "<span class='rowmove'>";
-				$renderer->doc .= "<img src=\"".$image."arrow_up.gif\" alt='up'  class=\"rowmove\" style=\"cursor:pointer;\" onclick=\"rowup(this,'".base64_encode($INFO["id"])."');\" />";
-				$renderer->doc .= "<img src=\"".$image."arrow_down.gif\" alt='down' class=\"rowmove\" style=\"cursor:pointer;\" onclick=\"rowdown(this,'".base64_encode($INFO["id"])."');\" />";
+				$renderer->doc .= "<img src=\"".$image."arrow_up.gif\" alt='up'  class=\"rowmove rowmove_up\" onclick=\"rowup(this,'".base64_encode($INFO["id"])."');\" />";
+				$renderer->doc .= "<img src=\"".$image."arrow_down.gif\" alt='down' class=\"rowmove\" onclick=\"rowdown(this,'".base64_encode($INFO["id"])."');\" />";
 				$renderer->doc .= "</span>";
 			}
 		}	
@@ -81,4 +80,3 @@ class syntax_plugin_rowmove extends DokuWiki_Syntax_Plugin{
 	}
 
 }
-

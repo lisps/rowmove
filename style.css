@@ -13,5 +13,5 @@ img.rowmove {
 	width:12px;
 	position:relative;
 	padding:2px;
-	
+	cursor: pointer;
 }
